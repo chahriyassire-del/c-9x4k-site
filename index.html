@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>For Chaimae 💌</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff8fa3, #ff4d6d);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .hearts span {
+      position: absolute;
+      bottom: -50px;
+      font-size: 20px;
+      animation: floatUp linear infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0); opacity: 0.6; }
+      to { transform: translateY(-110vh); opacity: 0; }
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    input {
+      padding: 12px;
+      width: 80%;
+      border-radius: 20px;
+      border: none;
+      outline: none;
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    button {
+      padding: 12px 25px;
+      border-radius: 25px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 10px;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .yes {
+      background: white;
+      color: #ff4d6d;
+      font-weight: 600;
+    }
+
+    .no {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+      position: relative;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Hearts -->
+  <div class="hearts"></div>
+
+  <!-- Unlock Screen -->
+  <div class="card" id="lockScreen">
+    <h2>🔒 Secret Access</h2>
+    <p>Type the funniest word to unlock 😌</p>
+    <input type="text" id="password" placeholder="Hint: you know it 👀">
+    <br>
+    <button class="yes" onclick="unlock()">Unlock 💕</button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="card hidden" id="mainContent">
+    <h1>Chaimae 💖</h1>
+    <p>
+      I wanted to do this in a way that feels… us.<br><br>
+      Simple, honest, and real.
+    </p>
+
+    <h2>Will you be my Valentine? 🌹</h2>
+
+    <button class="yes" onclick="sayYes()">Yes ❤️</button>
+    <button class="no" id="noBtn">No 😅</button>
+
+    <p style="margin-top:20px; font-size:14px;">— Yasser</p>
+  </div>
+
+  <!-- Background Music -->
+  <iframe id="music" class="hidden"
+    src="https://www.youtube.com/embed/IdGbm2JATOc?autoplay=1&loop=1&playlist=IdGbm2JATOc"
+    allow="autoplay">
+  </iframe>
+
+  <script>
+    // Hearts generator
+    const heartsContainer = document.querySelector('.hearts');
+    for (let i = 0; i < 25; i++) {
+      const heart = document.createElement('span');
+      heart.innerHTML = '💗';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (5 + Math.random() * 5) + 's';
+      heart.style.fontSize = (16 + Math.random() * 20) + 'px';
+      heartsContainer.appendChild(heart);
+    }
+
+    function unlock() {
+      const value = document.getElementById('password').value.trim();
+      if (value === "lkhr9a") {
+        document.getElementById('lockScreen').classList.add('hidden');
+        document.getElementById('mainContent').classList.remove('hidden');
+        document.getElementById('music').classList.remove('hidden');
+      } else {
+        alert("Nope 😅 try again");
+      }
+    }
+
+    function sayYes() {
+      alert("WLYAAAAAAAAAA 💖💖💖");
+    }
+
+    const noBtn = document.getElementById('noBtn');
+    noBtn.addEventListener('mouseover', () => {
+      const x = Math.random() * 200 - 100;
+      const y = Math.random() * 200 - 100;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+  </script>
+
+</body>
+</html>
