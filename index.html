@@ -25,7 +25,7 @@
       color: white;
     }
 
-    /* FLOATING LAYER */
+    /* Floating layer */
     #floatingContainer {
       position: fixed;
       top: 0;
@@ -46,15 +46,13 @@
     @keyframes floatUp {
       from {
         transform: translateY(0) rotate(0deg);
-        opacity: 0.9;
       }
       to {
         transform: translateY(-120vh) rotate(360deg);
-        opacity: 0;
       }
     }
 
-    /* CARD */
+    /* Card */
     .card {
       position: relative;
       z-index: 5;
@@ -65,11 +63,11 @@
       width: 90%;
       max-width: 420px;
       text-align: center;
-      animation: fadeIn 1s ease;
+      animation: fadeIn 0.8s ease;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(25px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -118,7 +116,7 @@
 </head>
 <body>
 
-  <!-- FLOATING ITEMS -->
+  <!-- Floating items -->
   <div id="floatingContainer"></div>
 
   <!-- LOCK SCREEN -->
@@ -130,8 +128,8 @@
     <button class="yes" onclick="unlock()">Unlock 💕</button>
   </div>
 
-  <!-- MAIN CONTENT -->
-  <div class="card hidden" id="mainContent">
+  <!-- MAIN PAGE -->
+  <div class="card hidden" id="mainPage">
     <h1>Chaimae 💖</h1>
     <p>
       I wanted to keep this simple and real.<br><br>
@@ -140,21 +138,23 @@
 
     <h2>Will you be my Valentine? 🌷</h2>
 
-    <button class="yes" onclick="sayYes()">Yes ❤️</button>
+    <button class="yes" onclick="goToFinal()">Yes ❤️</button>
     <button class="no" id="noBtn">No 😅</button>
 
     <p style="margin-top:20px; font-size:14px;">— Yasser</p>
   </div>
 
-  <!-- AUDIO ONLY -->
-  <iframe
-    id="music"
-    allow="autoplay"
-    style="width:0;height:0;border:0;position:absolute;">
-  </iframe>
+  <!-- FINAL PAGE -->
+  <div class="card hidden" id="finalPage">
+    <h1>Happy Valentine’s Day 💖</h1>
+    <p style="font-size:18px;">
+      Let’s create some beautiful memories together.<br><br>
+      I’m really glad it’s you 🌸
+    </p>
+  </div>
 
   <script>
-    /* FLOATING FLOWERS + HELLO KITTY */
+    /* Floating flowers + Hello Kitty */
     const container = document.getElementById("floatingContainer");
 
     const items = [
@@ -163,7 +163,7 @@
       '<img src="https://i.imgur.com/s7EJ9YF.png" style="width:42px;">'
     ];
 
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 35; i++) {
       const el = document.createElement("div");
       el.className = "floating";
       el.innerHTML = items[Math.floor(Math.random() * items.length)];
@@ -177,17 +177,15 @@
       const val = document.getElementById("password").value.trim();
       if (val === "lkhr9a") {
         document.getElementById("lockScreen").classList.add("hidden");
-        document.getElementById("mainContent").classList.remove("hidden");
-
-        document.getElementById("music").src =
-          "https://www.youtube.com/embed/IdGbm2JATOc?autoplay=1&loop=1&playlist=IdGbm2JATOc";
+        document.getElementById("mainPage").classList.remove("hidden");
       } else {
         alert("Try again 😅");
       }
     }
 
-    function sayYes() {
-      alert("WLYAAAAAAAAAA 💖💖💖");
+    function goToFinal() {
+      document.getElementById("mainPage").classList.add("hidden");
+      document.getElementById("finalPage").classList.remove("hidden");
     }
 
     const noBtn = document.getElementById("noBtn");
