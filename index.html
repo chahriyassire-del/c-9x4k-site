@@ -28,10 +28,7 @@
     /* Floating layer */
     #floatingContainer {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       pointer-events: none;
       z-index: 1;
     }
@@ -44,31 +41,33 @@
     }
 
     @keyframes floatUp {
-      from {
-        transform: translateY(0) rotate(0deg);
-      }
-      to {
-        transform: translateY(-120vh) rotate(360deg);
-      }
+      from { transform: translateY(0) rotate(0deg); }
+      to { transform: translateY(-120vh) rotate(360deg); }
     }
 
-    /* Card */
+    /* Cards */
     .card {
-      position: relative;
+      position: absolute;
       z-index: 5;
-      background: rgba(255, 255, 255, 0.18);
+      background: rgba(255,255,255,0.18);
       backdrop-filter: blur(12px);
       border-radius: 22px;
       padding: 32px;
       width: 90%;
       max-width: 420px;
       text-align: center;
-      animation: fadeIn 0.8s ease;
+      opacity: 0;
+      transform: scale(0.96);
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .card.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    h1, h2 {
+      margin-top: 0;
     }
 
     input {
@@ -109,90 +108,108 @@
       position: relative;
     }
 
-    .hidden {
-      display: none;
+    .small {
+      font-size: 13px;
+      opacity: 0.85;
+      margin-top: 15px;
     }
   </style>
 </head>
 <body>
 
-  <!-- Floating items -->
+  <!-- Floating container -->
   <div id="floatingContainer"></div>
 
-  <!-- LOCK SCREEN -->
-  <div class="card" id="lockScreen">
+  <!-- LOCK -->
+  <div class="card active" id="lock">
     <h2>🔒 Little Lock</h2>
     <p>Type the funniest word to unlock 😌</p>
-    <input type="text" id="password" placeholder="You know it 👀">
+    <input id="password" placeholder="You know it 👀">
     <br>
     <button class="yes" onclick="unlock()">Unlock 💕</button>
   </div>
 
-  <!-- MAIN PAGE -->
-  <div class="card hidden" id="mainPage">
+  <!-- MAIN -->
+  <div class="card" id="main">
     <h1>Chaimae 💖</h1>
     <p>
-      I wanted to keep this simple and real.<br><br>
-      Just something honest.
+      I wanted to ask you in a way that feels simple and real.<br><br>
+      No pressure. Just honesty.
     </p>
 
     <h2>Will you be my Valentine? 🌷</h2>
 
-    <button class="yes" onclick="goToFinal()">Yes ❤️</button>
+    <button class="yes" onclick="goFinal()">Yes ❤️</button>
     <button class="no" id="noBtn">No 😅</button>
 
-    <p style="margin-top:20px; font-size:14px;">— Yasser</p>
+    <p class="small">No rush. I just wanted to ask you in my own way.</p>
+    <p class="small">— Yasser</p>
   </div>
 
-  <!-- FINAL PAGE -->
-  <div class="card hidden" id="finalPage">
-    <h1>Happy Valentine’s Day 💖</h1>
+  <!-- FINAL -->
+  <div class="card" id="final">
+    <h1>Happy Valentine’s Day, Chaimae 💖</h1>
     <p style="font-size:18px;">
-      Let’s create some beautiful memories together.<br><br>
-      I’m really glad it’s you 🌸
+      I’d really love for us to create our own little memories together.<br><br>
+      This is just the beginning 🌸
     </p>
   </div>
 
   <script>
-    /* Floating flowers + Hello Kitty */
     const container = document.getElementById("floatingContainer");
 
-    const items = [
-      "🌸", "🌷", "🌹",
-      '<img src="https://i.imgur.com/7QpQG1n.png" style="width:42px;">',
-      '<img src="https://i.imgur.com/s7EJ9YF.png" style="width:42px;">'
-    ];
+    function spawn(items, count, speed) {
+      container.innerHTML = "";
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement("div");
+        el.className = "floating";
+        el.innerHTML = items[Math.floor(Math.random() * items.length)];
+        el.style.left = Math.random() * 100 + "vw";
+        el.style.animationDuration = speed + Math.random() * 4 + "s";
+        el.style.animationDelay = Math.random() * 4 + "s";
+        container.appendChild(el);
+      }
+    }
 
-    for (let i = 0; i < 35; i++) {
-      const el = document.createElement("div");
-      el.className = "floating";
-      el.innerHTML = items[Math.floor(Math.random() * items.length)];
-      el.style.left = Math.random() * 100 + "vw";
-      el.style.animationDuration = (6 + Math.random() * 6) + "s";
-      el.style.animationDelay = Math.random() * 5 + "s";
-      container.appendChild(el);
+    // Initial flowers only
+    spawn(["🌸","🌷","🌹"], 30, 6);
+
+    function switchCard(from, to) {
+      from.classList.remove("active");
+      setTimeout(() => to.classList.add("active"), 300);
     }
 
     function unlock() {
-      const val = document.getElementById("password").value.trim();
-      if (val === "lkhr9a") {
-        document.getElementById("lockScreen").classList.add("hidden");
-        document.getElementById("mainPage").classList.remove("hidden");
+      if (password.value.trim() === "lkhr9a") {
+        switchCard(lock, main);
       } else {
         alert("Try again 😅");
       }
     }
 
-    function goToFinal() {
-      document.getElementById("mainPage").classList.add("hidden");
-      document.getElementById("finalPage").classList.remove("hidden");
-    }
-
-    const noBtn = document.getElementById("noBtn");
+    let noCount = 0;
     noBtn.addEventListener("mouseover", () => {
-      noBtn.style.transform =
-        `translate(${Math.random()*200-100}px, ${Math.random()*200-100}px)`;
+      noCount++;
+      if (noCount < 3) {
+        noBtn.style.transform =
+          `translate(${Math.random()*200-100}px, ${Math.random()*200-100}px)`;
+      } else {
+        noBtn.style.display = "none";
+      }
     });
+
+    function goFinal() {
+      switchCard(main, final);
+      // Slower flowers + Hello Kitty surprise
+      spawn(
+        ["🌸","🌷","🌹",
+         '<img src="https://i.imgur.com/7QpQG1n.png" style="width:42px;">',
+         '<img src="https://i.imgur.com/s7EJ9YF.png" style="width:42px;">'
+        ],
+        25,
+        10
+      );
+    }
   </script>
 
 </body>
