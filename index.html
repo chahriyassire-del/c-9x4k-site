@@ -2,214 +2,105 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="robots" content="noindex, nofollow">
-  <title>For Chaimae 💖</title>
+  <title>Rim 💖</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-
     body {
       margin: 0;
       height: 100vh;
-      background: linear-gradient(135deg, #ff9eb3, #ff4d6d);
-      overflow: hidden;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
       color: white;
+      text-align: center;
+      overflow: hidden;
     }
 
-    /* Floating layer */
-    #floatingContainer {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .floating {
-      position: absolute;
-      bottom: -80px;
-      animation: floatUp linear infinite;
-      opacity: 0.9;
-    }
-
-    @keyframes floatUp {
-      from { transform: translateY(0) rotate(0deg); }
-      to { transform: translateY(-120vh) rotate(360deg); }
-    }
-
-    /* Cards */
     .card {
-      position: absolute;
-      z-index: 5;
-      background: rgba(255,255,255,0.18);
-      backdrop-filter: blur(12px);
-      border-radius: 22px;
-      padding: 32px;
-      width: 90%;
-      max-width: 420px;
-      text-align: center;
-      opacity: 0;
-      transform: scale(0.96);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .card.active {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    h1, h2 {
-      margin-top: 0;
-    }
-
-    input {
-      padding: 12px;
-      width: 80%;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 30px;
       border-radius: 20px;
-      border: none;
-      outline: none;
-      margin-top: 15px;
-      text-align: center;
-      font-size: 16px;
+      backdrop-filter: blur(10px);
+      width: 90%;
+      max-width: 400px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 25px;
     }
 
     button {
-      padding: 12px 26px;
-      border-radius: 25px;
+      font-size: 1.1rem;
+      padding: 12px 25px;
+      border-radius: 30px;
       border: none;
-      font-size: 16px;
       cursor: pointer;
-      margin: 10px;
-      transition: transform 0.2s ease;
+      transition: 0.2s ease;
     }
 
-    button:hover {
-      transform: scale(1.08);
-    }
-
-    .yes {
-      background: white;
-      color: #ff4d6d;
-      font-weight: 600;
-    }
-
-    .no {
-      background: transparent;
+    #yesBtn {
+      background: #4CAF50;
       color: white;
-      border: 2px solid white;
-      position: relative;
+      margin-right: 10px;
     }
 
-    .small {
-      font-size: 13px;
-      opacity: 0.85;
-      margin-top: 15px;
+    #noBtn {
+      background: #f44336;
+      color: white;
+      position: absolute;
+    }
+
+    .success {
+      font-size: 1.5rem;
+      line-height: 1.4;
     }
   </style>
 </head>
+
 <body>
 
-  <!-- Floating container -->
-  <div id="floatingContainer"></div>
+  <div class="card" id="card">
+    <h1>Rim 💕</h1>
+    <p>Will you be my Valentine?</p>
 
-  <!-- LOCK -->
-  <div class="card active" id="lock">
-    <h2>🔒 Little Lock</h2>
-    <p>Type the funniest word to unlock 😌</p>
-    <input id="password" placeholder="You know it 👀">
-    <br>
-    <button class="yes" onclick="unlock()">Unlock 💕</button>
-  </div>
-
-  <!-- MAIN -->
-  <div class="card" id="main">
-    <h1>Chaimae 💖</h1>
-    <p>
-      I wanted to ask you in a way that feels simple and real.<br><br>
-      No pressure. Just honesty.
-    </p>
-
-    <h2>Will you be my Valentine? 🌷</h2>
-
-    <button class="yes" onclick="goFinal()">Yes ❤️</button>
-    <button class="no" id="noBtn">No 😅</button>
-
-    <p class="small">No rush. I just wanted to ask you in my own way.</p>
-    <p class="small">— Yasser</p>
-  </div>
-
-  <!-- FINAL -->
-  <div class="card" id="final">
-    <h1>Happy Valentine’s Day, Chaimae 💖</h1>
-    <p style="font-size:18px;">
-      I’d really love for us to create our own little memories together.<br><br>
-      This is just the beginning 🌸
-    </p>
+    <button id="yesBtn">Yes 💖</button>
+    <button id="noBtn">No 🙄</button>
   </div>
 
   <script>
-    const container = document.getElementById("floatingContainer");
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const card = document.getElementById("card");
 
-    function spawn(items, count, speed) {
-      container.innerHTML = "";
-      for (let i = 0; i < count; i++) {
-        const el = document.createElement("div");
-        el.className = "floating";
-        el.innerHTML = items[Math.floor(Math.random() * items.length)];
-        el.style.left = Math.random() * 100 + "vw";
-        el.style.animationDuration = speed + Math.random() * 4 + "s";
-        el.style.animationDelay = Math.random() * 4 + "s";
-        container.appendChild(el);
-      }
+    noBtn.addEventListener("mouseover", moveButton);
+    noBtn.addEventListener("click", moveButton);
+
+    function moveButton() {
+      const x = Math.random() * (window.innerWidth - 100);
+      const y = Math.random() * (window.innerHeight - 50);
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
     }
 
-    // Initial flowers only
-    spawn(["🌸","🌷","🌹"], 30, 6);
-
-    function switchCard(from, to) {
-      from.classList.remove("active");
-      setTimeout(() => to.classList.add("active"), 300);
-    }
-
-    function unlock() {
-      if (password.value.trim() === "lkhr9a") {
-        switchCard(lock, main);
-      } else {
-        alert("Try again 😅");
-      }
-    }
-
-    let noCount = 0;
-    noBtn.addEventListener("mouseover", () => {
-      noCount++;
-      if (noCount < 3) {
-        noBtn.style.transform =
-          `translate(${Math.random()*200-100}px, ${Math.random()*200-100}px)`;
-      } else {
-        noBtn.style.display = "none";
-      }
+    yesBtn.addEventListener("click", () => {
+      card.innerHTML = `
+        <div class="success">
+          💘 Deal sealed 😌💍<br><br>
+          Now you’re <strong>my Valentine</strong>,<br>
+          nobody else’s 😏💖<br><br>
+          — Yasser
+        </div>
+      `;
     });
-
-    function goFinal() {
-      switchCard(main, final);
-      // Slower flowers + Hello Kitty surprise
-      spawn(
-        ["🌸","🌷","🌹",
-         '<img src="https://i.imgur.com/7QpQG1n.png" style="width:42px;">',
-         '<img src="https://i.imgur.com/s7EJ9YF.png" style="width:42px;">'
-        ],
-        25,
-        10
-      );
-    }
   </script>
 
 </body>
